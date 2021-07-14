@@ -1,0 +1,212 @@
+Start a new binary project.	cargo new --bin project_name Creates a new folder with necessary files.
+Run a rust project.	cargo run
+Clean up compiled files	cargo clean
+Run all tests.	cargo test
+Assign an integer.	let my_integer = 5
+Assign an unsigned 32 bit integer.	let unsigned: u32 = 5
+Assert that something is equal something else in a test.	assert_eq!(func(1, 1), 2)
+What does cargo check do?	It quickly checks your code and makes sure it compiles, but does not produce an executable
+How do you compile the project for a release?	cargo build --release
+Create a mutable string	let mut string = String::new();
+How to use an external crate?	extern crate this_crate; use this_crate;
+Compare a value with another value	let num = 5 let num2 = 6 num.cmp(&num2) The cmp method can be called on anything that can be compared. It takes a reference. Returns an enum of Ordering.
+What is the following an example of: let value = 4; let value = 5; When is it used?	It's an example of shadowing a former value. Often used when you want to convert a value from one type to another type.
+How to trim a string?	my_string.trim()
+Parse a string into a number. What does the function return?	my_string.parse() The above returns a result, and needs to be handled.
+How to create and exit an infinite loop?	loop { code // break; quits the loop }
+"How to create a new string variable that contains the string ""hello""?"	"let string = String::from(""hello"")"
+"let string = String::from(""5""); let number: u32 = string.parse(); // we need to do something here The parse function returns a result. How do extract the number? Don't use expect."	"let number: u32 = match string.parse() { Ok(num) => num, Err(_) => panic!(""fails"") } The above happens in a match statement. If parse succeeds it will match with num, otherwise it will panic. This opens up a way to handle errors gracefully."
+What error will this give? let x = 6; x = 5;	You cannot assign twice to an immutable variable. To be able to do that you'll need to either make the variable mutable, or use let again to shadow the variable.
+Assign a constant.	const MAX_POINTS = 100_000
+What is isize and usize?	Depending on what computer you are running, it will either use the u64 and i64 type or the u32 and i32 type.
+Make a tuple of 1, 2, and 3.	let tuple = (1, 2, 3); With type annotation: let tuple: (u32, u32, u32) = (1, 2, 3);
+You have the tuple: let tuple = (1, 2, 3) Destructure it into three variables.	let (x, y, z) = tuple
+Access the second item of the tuple: let tuple = (1, 2, 3);	tuple.1 // accesses the second item
+Make an array, what are the disadvantages?	let a = [1, 2, ,3 , 4]; An array is not as flexible, for a more flexible data type use a vector. Arrays are fixed size, whereas vectors can expand.
+Make a function with an integer parameter that returns an integer.	fn my_func(num: i32) -> i32 { num // writing a variable without semicolon returns the variable }
+"Explain the following: let x = 10 let y = { let x = 3; x + 1 }; println!(""x: {}, y: {}"", x, y); What is the value of x and y?"	"x = 10, y = 4. y is assigned an expression that is a statement (the semicolon at the end). The expression is scoped. So x is different from the two different scopes. Since we don't have a semicolon in ""x + 1"", that gets returned and assigned to y."
+Write an if statement.	"if number == 5 { println!(""Yup""); } else { println!(""Nope""); }"
+Write a conditional expression equivalent to Python: my_var = 5 if condition else 3	let my_var = if condition { 5 } else { 3 }; This can take place over several lines too.
+Write a while loop.	while number != 0 { number = number - 1; }
+Loop through the following array: let array = [1, 2, 3];	"for num in array.iter() { println!(""{}"", num); }"
+Reverse an array.	array.iter().rev() It is now an iterator that is reversed. You can iterate through that.
+Create a range between 1 to 4 inclusive and exclusive.	let range_exclusive = (1..4); let range_inclusive = (1..=4);
+"What is the different between ""hello"" and String::from(""hello"")?"	The first is a string literal, the second is a string type. The string literal is always immutable, taken from the stack and thus fast. It's hard coded into the executable. The String type is taken from the heap.
+When is variables memory returned?	When a variable goes out of scope, rust calls a function drop that returns the memory the variable occupied.
+"What happens in the following code: let s1 = String::from(""hello""); let s2 = s1; println!(""{}"", s1);"	s2 takes ownership over s1 so s1 is no longer valid. This happens because the string datatype does not implement copy, doing so would be expensive.
+When is it useful to use the clone method?	If you want to deeply copy a variable that would have been moved otherwise.
+When should you use a reference or an owned variable in a function?	If the function needs to modify the variable, you need to give the function ownership or alternatively a mutable reference. If it only needs to read the variable, it's better to pass the variable by reference. Example of signature: fn fun(s: &String) vs fn fun(s: String)
+What is the * operator?	The opposite of reference, it's used to deference a variable *i = x; It can also be a glob operator when importing. use module::*
+Can you modify a reference?	Yes. Using &mut.
+What's the type of a string literal?	&'static str
+Slice a string from 0 to 10.	"let s = String::from(""hello my string""); let sliced = &s[0..10]; The type of sliced is a string literal. The value is borrowed and is immutable."
+If you need to handle string literals and String, what should the function signature be?	fn handle_string(s: &str) You can easily transform a String into a string literal.
+Define a struct user that can be active and has email	struct User { email: String, active: bool }
+How to allow debug print formatting of your own structs?	"#[derive(Debug)] struct MyStruct {} let struct = MyStruct { }; println!(""{:?}"", struct);"
+How to define an area method for a rectangle struct. What if we need to mutate in method?	struct Rectangle { width: u32, height: u32} impl Rectangle { fn area(&self) -> u32 { self.width * self.height } } Only reading the data from rectangle. if we want to mutate, the signature needs to be &mut self.
+Define an enum that has two variants, hello and world.	enum MyEnum { hello, world }; The two variants do not contain any types, but can do. You can store anything in an enum.
+Can an enum have it's own methods?	Yes. Use impl MyEnum and implement the methods
+What is the option enum?	The option enum is representing either the Some(value) or None.
+Create an integer that can either be a number or none.	let integer = Some(5);
+Assign None to a variable that can also be of the type i32.	let integer: Option<i32> = None;
+Why is the Option type useful?	The Option is it's own type. It needs to be unwrapped to get the underlying type. This avoids the mistake of doing operations on None which could crash your program.
+Use match to match the option Some(5).	let integer = Some(5); let sanitized = match integer { Some(num) => num, None => 0 }; In the above we're matching an option if it isn't None we return the number, if it is none we return 0. Match needs to be exhaustive.
+How do you match all existing integers?	"Matches need to be exaustive. You can use _ as a placeholder. It will match every value. match integer { _ => println!(""matched"") }"
+"What is ""if let""? Make an example using the option type."	A more concise way of doing match, but non-exaustive. It's a bit like the ternary operator in Python. let integer = Some(3); let new_value = if let Some(3) = integer { 3 } else { 0 }; // or if let Some(i) = integer { // some code } else { // some other code }
+How to create a new library package?	cargo new mylib --lib
+How do you create a module in a lib.rs?	"use ""mod"" i.e.: mod network { fn func() {} } creates a module called network."
+"How do you create a module as an external file? We want to create a module ""client""."	"If we have the module ""client"", create a file called client.rs and in lib.rs type: mod client;"
+Where does Rust look for modules? It happens in two places.	Rust only looks for modules in lib.rs, so you need to define all modules there for a package. If the module defined in lib.rs is a subdirectory it will look in mod.rs
+Can you use cargo run for a library.	No, you need to use cargo build.
+When do you use the mod.rs file?	"It's used when you have subdirectories when building a library. In mod.rs you would write ""use somefile;"" and in lib.rs you would write ""use subdirectory;"" i.e.: lib.rs subdirectory/mod.rs subdirectory/somefile.rs"
+When building a library what is the default state, public or private?	All code is private. You need to use the pub to make a module function public. i.e. in lib.rs: pub mod client; mod network; client is public network is private
+pub mod a { pub mod series { pub mod of { pub fn nested_modules() {} } } } Nested modules can be called with a::series::of::nested_modules() how do you shorten this?	use a::series::of; of::nested_modules();
+"How do you bring in several variables into the scope from ""myModule""?"	use myModule::{func1, func2}; func1 and func2 is now available in that scope. You can do the same with enums etc etc.
+Bring in everything from a module or enum.	use myModule::*; The glob operator.
+Where is the data stored in vectors and in collection datatypes?	It is stored in the heap, which means that the amount of data is not known during compile time.
+Mention three common collection types in Rust.	* String * Vector * Hash map
+Create a vector with the type i32.	let v: Vec<i32> = Vec::new();
+Create a vector with the vector macro.	let v = vec![1, 2, 3];
+Can vectors store multiple types?	No, they can only store a single type. If you need to store multiple types you need to wrap it in a single type.
+Name two ways of accessing the following vector: let v = vec![1, 2, 3];	v[0] and v.get(0)
+How to iterate over a vector?	"for i in &v { println!(""{}"", i); }"
+Add 10 to each number in a vector.	let mut v = vec![1, 2, 3]; for i in &mut v { *i += 10; } Without deferencing the type is &mut {integer}, the star operator is needed to dereference and make it an {integer}.
+How is a String implemented?	It's implemented as a collection of bytes.
+"Make the following string literal into a String: let data = ""hello world"";"	let s = data.into_string();
+Extend a string.	"let s = String::new(); s.push_str(""hello"");"
+What do you need to know when concatenating two strings? Would the following compile? s1 + s2	No it won't compile. It needs to be s1 + &s2. The add signature is add(self, s: &str) -> String. Thus the second argument needs to be a reference. Furthermore, s1 is moved and will no longer be valid after this.
+How to format a string? I.e. similar to python.	"let s = format!(""{} - {} - {}"", s1, s2, s3);"
+Is it possible to use indexing for a string? I.e. &s[0].	No, as a character can consist of several bytes the design decision was to not allow this to compile.
+"What would happen if you slice the following: let s = ""日本"" s[0..2]"	You would cause a panic. The 1 index is not part of the char boundary, it is inside of 日. Doing s[0..3] would work though.
+If you need to iterate over characters, how should you do it?	"for c in ""日本"".chars() { println!(""{}"", c); } It will return each character in turn."
+How would you get the codepoint data of a string?	"""hello"".bytes()"
+Create a HashMap.	"use std::collections::HashMap; let mut scores = HashMap::new(); scores.insert(""hello"", 10);"
+Can you have different types or different keys in a hash map?	No, you can't all have to be the same type.
+How to zip two arrays?	let arr1 = [1, 2]; let arr2 = [10, 12]; let zipped = arr1.iter().zip(arr2.iter());
+What happens when you insert a variable in a HashMap?	The value will be moved into the hashmap. If on the other hand it has a copy trait it will be copied.
+How to get a value from a hashmap?	"hashmap.get(""string""); It will return an Option."
+How to iterate over a HashMap?	for (key, value) in &hashmap { // snip }
+Insert a value only if key has no value in a hashmap.	"hashmap.insert(""hello"", 10); hashmap.entry(""hello"").or_insert(50); 50 is not inserted since there is already a key called hello."
+Count the number of occurrences of a letter in a string, use a HashMap.	let mut hashmap = HashMap::new(); for char in text.chars() { let count = hashmap.entry(char).or_insert(0); *count += 1; }
+How to sort a vector?	v.sort_by(|a, b| a.cmp(b)); or v.sort()
+How to write a closure in Rust?	|val| val + x using inferred type |val: i32| val + x specified type
+There are two error types in rust, what are they?	Result<T, E> - which is for a recoverable error. panic! - for an unrecoverable error which halts execution.
+What happens when you panic?	Program starts to unwind. Rust walks back up the stack and cleans up the data from each function.
+Is there an alternative to unwind the program upon panic?	"Yes, you can abort directly. Set the following in cargo.toml: [profile.release] panic = ""abort"""
+What are the variants of the Result enum?	Either Ok or Err.
+What does result.unwrap() do?	For a Result type unwrap will either return the value inside of Ok or call panic! if it is an Err.
+Unwrap Some(None). Instead of None or Panic return something else.	Some(None).unwrap_or(3); returns three Some(None).unwrap_or_else(|| 2) takes a function call, in this case we are using a closure.
+What does expect do?	It does the same thing as unwrap, ie on error it will panic! but it will allow you to set an error message.
+What restrictions are there for modifying a mutable reference? Give an example.	"You can only have one mutable reference to a particular piece of data in a particular scope. ie code below will fail. let mut s = String::from(""hello"") let r1 = &mut s; let r2 = &mut s;"
+How to transform a string into string literal?	let s = String::new() let literal = &s[..] It can now be interpreted as a string literal
+What is the try! macro equivalent to?	It is equivalent to a match statement where it returns either Ok or Err. It's also equivalent to the ? operator, which is preferred. match my_method() { Ok(v) => v, Err(e) => return Err(From::from(e)), }
+What does result.ok() do?	it converts the result into an option and discards the error if any. I.e. it will either return Some(value) or None.
+What does the ? operator do?	If you use it for a function that returns a Result and it returns an Err, the function will return early with that Err. Otherwise it will return with the value of the result.
+What is the restriction of using ? operator?	It can only be used for functions that return result. For other functions you'll need to use match or any of the other result methods.
+Is unwrap and expect a code smell?	They tell you that errors are not handled and there is a potential for improvement on how to handle those errors.
+Why may it make sense to have a type rather than an Option?	- If you use your own type you're expecting that type, if it is not used the program will not compile. - If you're using an option you will need to handle that which leads to more verbose code. In other words, it is better to use the type system.
+What is the convention for a constructor of a struct?	pub fn new(..snip..) -> YourStruct {}
+Define a struct Point that can take a generic type x and y	struct Point<T> { x: T, y: T } In the above x and y have to be of the same type T which is generic. You may specify several types in the brackets < . > to give different types in x and y.
+"How to implement a method ""x"" for a Point that takes generic types?"	impl<T> Point<T> { fn x(&self) -> &T { &self.x } } Implements a method named x on the point struct that will return a reference to the x field of type T.
+What does the following code mean? impl<T, U> Point<T, U> { fn mixup<V, W> (self, other: Point<V, W>) -> Point<T, W> { }	"You have a point struct that takes two generic types The mix-up function requires another point that may have different types. First declared after the function ""mixup"" then referenced in the point. The function mixup returns a point that is a combination of the types from the first point and the second point."
+Is there a performance cost of using generics? Why?	No, rust is performing monomorphization of the code at compile time. It turns the generic code into specific code by filling in the concrete types.
+What is a trait?	Traits are used to define shared behaviour in an abstract way. It's similar to an interface.
+Define a trait Summary with the method summarize returning a string.	pub trait Summary { fn summarize(&self) -> String; }
+What does it mean for a type implementing a trait?	The type implementing a trait will need to provide its own custom behaviour for the body of the method.
+How do you implement a trait? Use the trait Summary as an example.	impl Summary for MyStruct { // snip, the methods that should be implemented for summary }
+When can't you implement a trait?	You can't implement a trait using external traits on external types.
+Can you have default implementations of a trait? How?	Yes. Instead of ending the function signature with a semicolon, use brackets and write the implementation there.
+What are trait bounds?	You can define that a function only accepts a generic type for a type that implements that trait.
+Write a function that has a trait bound for the trait Summary.	fn notify<T: Summary>(item: T) { .. snip .. } Trait boundary is <T: Summary> which is placed after the function name.
+How do you specify multiple trait bounds?	Using plus syntax: fn some_function<T: Display + Clone>(t : T) -> i32 { .. }
+"How to use ""where"" when defining a trait bound?"	fn some_function<T>(t: T) -> i32 where T: Display + Clone { ... snip }
+The following function won't compile, why? fn longest(x: &str, y: &str) -> &str { if x.len() > y.len() { x } else { y } }	It's due to lifetimes. The compiler won't know whether x or y goes out of scope due to the else statement. To make it compile you'll have to define the lifetime of both of these variables in the following way: fn longest<'a>(x: &'a str, y: &'a str) -> &'a str { snip } It tells you that x and y will live as long as the returned result.
+What is the operator for a lifetime?	It is '. A lifetime also needs to be named. Commonly named as 'a.
+What is lifetime about?	Connecting the lifetime of parameters with its return values in a function. It's about letting the compiler know when variables should go out of scope.
+What does the following code mean in terms of lifetime? struct Excerpt<'a> { part: &'a str }	"It means that any variable that was the cause of the reference ""part"" won't go out of scope until the struct goes out of scope. It also means that an instance of Excerpt won't be able to outlive the reference part."
+What does the 'static lifetime mean?	It means that the lifetime is available during the entire duration of the program. This is true for string literals.
+What does use super::* do?	It's used when writing tests. It brings in the code under test from the outer module into the scope of the inner module which is the test.
+What does assert! do?	If the value in the assert! macro returns false it will panic.
+How do you assert not equal?	assert_ne!
+How do you test that a function should panic in a test?	#[test] #[should_panic] fn test_function() {} You use the should panic attribute AFTER the test attribute.
+How to make the attribute should_panic check the panic message?	"#[should_panic(expected = ""my substring"")]"
+How to display the options when running cargo test?	cargo test --help
+How to run only certain tests?	cargo test name_of_test_func will only run a test with that function. cargo test add will run all tests that contain add.
+What is the attribute to ignore a test?	Use the attribute: #[ignore]
+Run only ignored tests.	cargo test -- --ignored
+What does #[cfg(test)] do?	It is used for running tests. It tells Rust to compile and run the test code only when you run cargo test. It won't be run when you run cargo build. This saves compile time.
+Can you test private functions?	Yes!
+How to write an integration test?	Make a tests directory next to the src directory. Cargo will look for test files there when you run cargo test. Use #[test] for each test function.
+Only run the integration tests named this_integration.rs.	cargo test --test this_integration
+How to create common methods for integration tests, ie shared module?	create a tests/common/mod.rs import it with mod common; That tells rust that it is not a test file that it should run. Ie the magic is not the filename but the structure.
+You have a vector v, what is the difference accessing the vector in these two different ways?	v.get(10); returns an Option. Which will be None if the index doesn't exist. v[10]; if the value does not exist it will panic.
+How to create a closure?	Use pipes: let closure = |num| { ... num }
+Make a struct that holds a closure, where the closure returns a u32.	struct Cacher<T> where T: Fn(u32) -> u32 { calculation: T }
+Use impl for a generic struct. What does it look like?	impl<T> Mystruct<T> { snip }
+Will the following compile? let x = 4; let closure = |num| num == x;	Yes, closures are allowed to capture variables from the surrounding environment.
+Are functions allowed to capture variables from the surrounding environment?	No, in this case it won't compile if you try it. Only closures can do that.
+What does the trait FnOnce mean?	The trait is valid for closures and it means that the closure consumes / takes ownership of the variable it captures from its enclosing scope.
+What does the trait FnMut mean?	FnMut is implemented automatically by closures which take mutable references to captured variables.
+How do you force a closure to take ownership of a value?	let x = 5; let closure = move |num| num == x;
+What do you need to implement the Iterator trait?	"You need an associated type ""Item"" and to define the next method. that returns the associated type Item as an option. The iterator trait looks like this: pub trait Iterator { type Item; fn next(&mut self) -> Option<Self::Item>; }"
+Why do you need to make the iterator mutable to call next?	The iterator keeps track of where we are in the sequence and thus consumes the iterator.
+What is the difference between `into_iter` and `iter`?	into_iter - Takes ownership of that variable and returns owned values. `IntoIterator` is a trait. If you want your type to work with loops you need to implement that. iter - Iterates over a reference of your type. You need to make the reference mutable to call next.
+What are methods called that uses the next method in an iterator?	They are called consuming adaptors, because they use up the iterator.
+What happens in the following code: let v1 = vec![1, 2, 3]; let v1_iter = v1.iter(); let total: i32 = v1_iter.sum();	The sum function consumes the iterator, and you won't be able to call v1_iter afterwards because sum has taken ownership over the iterator.
+What are iterator adaptors? Can you name some?	These are methods that transform the iterator into different kind of iterators. They are lazy and you need to consume the iterator to have any effect. See: - map - filter etc
+How can you consume a lazy iterator?	You can do that with the collect method for instance
+Create a counter iterator from the following struct. The iterator should return none if the count is above 5. struct Counter { count: u32 } imple Counter { fn new() -> Counter { Counter { count: 0 } } }	impl Iterator for Counter { type Item = u32; fn next(&mut self) -> Option<Self::Item> { self.count += 1; if self.count < 6 { Some(self.count) } else { None } } }
+What does my_iterator.skip(1) do?	It skips the first step from the iterator. I.e. starts on the second value of the iterator.
+What does /// do in your code?	It's documentation comments. It supports markdown.
+How can you make and run doc tests?	Make an inline code block in markdown in a documentation comment and it will run that code when you run cargo test
+What does //! do?	These are comments that describe the entire block of code for that file.
+How to display the documentation for your project?	cargo doc --open
+How do you re-export types to make a better public api?	You can simply do that with: pub use yourmodule::* everything in that module will be imported in the current module and will be accessible if that module is public.
+What are cargo workspaces?	You can split up a repo into several crates. Handling multiple related packages that are developed in tandem.
+How do you create a cargo workspace?	"In cargo.toml at the top directory [workspace] members = [ ""crate1"", ""crate2"", ] crate1 and crate2 are crates that exist as subdirectories."
+How do you add a dependency from one of the related crates in a workspace?	"[dependency] crate2 = { path = ""../crate2"" }"
+How to specify which crate you want to build / run?	cargo run -p crate1 You need -p
+What is a smart pointer?	They can own the data they point to (see String). They also have metadata (the length of a string). Or extra capabilities (ensuring that data is valid utf-8 for a string).
+How would you implement a smart pointer?	A smart pointer would be a struct that implements the drop and deref trait.
+How would you point data on the heap with a smart pointer?	Box<T> does that, it allows you store data on the heap rather than the stack.
+When would you use Box<T>?	- When you don't know the size at compile time. - When you have a large amount data you want to transfer ownership, but it should not be copied. - When you want to own the value and you care only that it's a type that implements a particular trait.
+What does it mean to dereference a variable?	a reference is just the pointer to the value. It is not the value itself. When you dereference using * you'll get the actual value itself which you can do operations on.
+"What is the following code an example of: fn hello(string: &str) { } let m = Box::new(String::from(""Rust"")); hello(&m);"	It's an example of derefence coercion. Without it you would have to write: hello(&(*m)[..]);
+What does the Rc<T> do?	It's reference counting struct. Imported with use::std::Rc;
+How to spawn a thread?	use std::thread; thread::spawn(|| { ...snip .. }); It's possible to use functions or closures when spawning a thread .
+How can you sleep in a thread?	use std::thread; use std::time::Duration; // ...snip.. should be inside a thread. thread::sleep(Duration::from_millis(1));
+How to make sure that a spawned thread finishes?	Join it: let mythread = thread::spawn(|| {}); mythread.join().unwrap();
+How can join affect how threads are run?	If the joining of a thread is placed just after a thread is started it will block until that thread is completely joined. This could mean that two simultanous threads are not run at the same time.
+"What will happen with the following code: let v = vec![1, 2, 3] let handle = thread::spawn(|| { println!(""{:?}"", v); }); handle.join().unwrap();"	You'll get a compiler error saying that the borrow value may have been outlived. You can use move to make the thread own the vector.
+Do not communicate by sharing memory, instead [...]	... instead, share memory by communicating. i.e., the use of message passing.
+How to create a channel?	use std::sync::mpsc; let (tx, rx) = mpsc::channel(); The channel is receiving and transmitting between threads.
+What does mpsc channel stand for?	Multiple producer, single consumer. Many can send but there is only one consumer.
+How to send a message using a channel?	let (tx, rx) = mpsc::channel(); tx.send(val).unwrap(); Send returns a Result, so it needs to be unwrapped
+How to receive a message from a channel?	either with: rx.recv() // returns a result. or rx.try_recv() // returns a result try_recv() returns without blocking whether recv() is blocking.
+What is the difference between rx.recv() and rx.try_recv()?	rx.recv() is blocking and rx.try_recv() is non blocking. try_recv() returns an error if there is no message.
+How do you clone a channel transmitter?	mpsc::Sender::clone(&tx);
+How can you share memory between threads?	Use a mutex, abbreviation of mutual exclusion.
+What is problematic with mutex generally?	- You must attempt to acquire a lock before using the data. - When you are done you must unlock the data so other threads can acquire the lock.
+Give an example of how to use mutex.	"use std::sync::Mutex; let m = Mutex::new(5); { let mut num = m.lock().unwrap(); *num = 6; } println!(""{:?}"", m); // will print 6"
+What is Arc<T>?	It's an atomic reference counting. Import with std::sync::Arc; It's thread safe, if you're using threads and need reference counting use this instead of Rc.
+"Assume that you have the following trait ""Draw"", how would you define a vector that takes all types that implement the draw trait?"	Vec<Box<Draw>>
+What is the disadvantage of using trait objects as trait bound in a function?	When using trait objects you would need to use dynamic dispatch as opposed to static dispatch. There is a performance penalty for this.
+"To define that a struct attribute can take any type that implements the trait ""State"", why do we need to wrap that in a Box?"	Because we don't know the size of all the other types that implement that trait. We can use Box to let that data live on the heap and thus have a known size.
+What does Some(5).take() do?	It takes the value out of the option and leaves None its place.
+"What does the following code do? while let Some(top) = stack.pop() { println!(""{}"", top); }"	The while let pattern will run as long as the pattern holds true. I.e. when stack.pop() returns None it will stop running.
+What does iterator.enumerate() do? Show a use case.	for (index, value) in vector.iter().enumerate() { // ..snip .. }
+Can function parameters be patterns?	Yes!
+Pass in the following tuple in a function: let x = (1, 2); Use pattern matching in the function parameter.	fn tuple_func(&(x, y): &(i32, i32)) { }
+What are irrefutable patterns?	Patterns that will match for any possible value. An example would be let x = 5;
+What are refutable patterns?	Patterns that can fail to match for some possible value are refutable. An example would Some(x) in if let Some(x) = a_value. If the value is None rather than Some it would not match.
+How would you match multiple patterns on the same line?	"let x = 1; match x { 1 | 2 => println!(""one or two""), // matching multiple _ => println!(""anything"") }"
+Can you match ranges?	Yes. Just use the range pattern 1...4 in the match arm.
+"How would you match the characters ""a"" to ""z""?"	You can use the range 'a' ... 'z' in a match arm to match the letters a to z.
+You have these two variables: let x = 10 let y = 1 How can you make these change places?	let (y, x) = (x, y);
+You have the point: let p = Point { x: 1, y: 10 }; How can you destructure that and get x and y in one statement?	let Point { x, y } = p; Now you've got the variables x and y standalone.
+You have a vector of points. Point {x, y}. How would sum up all points?	let points = vec![...]; let sum: i32 = points .iter() .map(|&Point { x, y }| x + y) .sum();
+"Will the following code compile, why? let name = Some(""hello"".to_string()); match robot_name { Some(name) => println!(""{}"", name), None => () } println!(""{}"", name);"	No it won't compile. The name has been moved into the match statement and is no longer available.
+"What is ""ref"" and how can it be used?"	It can be used in a match statement to make sure that you don't move the variable into the match statement. match name { Some(ref name) => snip }
+What does a match guard look like?	match num { num if x < 5 => num, _ => () }
+How is the @ operator used in a pattern?	let msg = Message::Hello { id: 5 } match msg { Message::Hello { id: id_variable @ 3...7 } => ...snip... } You bind the value in hello to id_variable and can do something to that after =>
+What is a type alias?	You can substitute a lengthy type for a shorter one.
